@@ -209,11 +209,11 @@ if __name__ == '__main__':
     query_cosine_similarity = cosine_similarity(document_vector, query_vector)
 
     # Part 1 - Display query and document id in order of decreasing cosine similarity
-    for query_id, cosine_list in query_cosine_similarity.items():
-        for doc_id, cosine in cosine_list:
-            print(f"({query_id}, {doc_id})")
+    # for query_id, cosine_list in query_cosine_similarity.items():
+    #     for doc_id, cosine in cosine_list:
+    #         print(f"({query_id}, {doc_id})")
 
-    # Part 2 - Calculate precision and recall based on top n documents
+    # Calculate precision and recall based on top n documents
     relevance = parse_relevance(path)
 
     top_n_documents = [10, 50, 100, 500]
@@ -229,11 +229,17 @@ if __name__ == '__main__':
             recall.append(num / len(relevant_list))
 
         print(f"Calculating for top {n} documents")
-        i = 0
+        i = 1
         for p, r in zip(precision, recall):
             print(f"Query {i} -> Precision: {p}, Recall: {r}")
+            cosines = query_cosine_similarity[i]
+            doc_list = [x[0] for x in cosines[:n]]
+            for doc in doc_list:
+                print(f"({i}, {doc})")
+            print()
             i += 1
 
         print(f"Average precision: {sum(precision) / 10}")
         print(f"Average recall: {sum(recall) / 10}")
         print()
+
